@@ -4,12 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.dashboard.DashboardFragment"
+    android:background="@color/colorTheme">
 
+    <ImageView
+        app:layout_constraintTop_toTopOf="@id/tv_myLoc"
+        app:layout_constraintBottom_toBottomOf="@id/tv_myLoc"
+        app:layout_constraintRight_toLeftOf="@id/tv_myLoc"
+        android:src="@drawable/footprint"
+        android:layout_width="40dp"
+        android:layout_height="40dp"/>
     <TextView
         android:id="@+id/tv_myLoc"
         android:text="나의 발자취"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorBlack"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_width="wrap_content"

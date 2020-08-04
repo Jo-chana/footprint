@@ -11,7 +11,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.chana.lazynight.R;
 import com.chana.lazynight.data.GPSTracker;
-import com.chana.lazynight.ui.home.HomeViewModel;
+import com.chana.lazynight.data.PreferenceManager;
+import com.chana.lazynight.ui.LocationViewModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,9 +21,11 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 public class DashboardFragment extends Fragment implements OnMapReadyCallback {
 
-    private HomeViewModel viewModel;
+    private LocationViewModel viewModel;
     private MapView mapView = null;
     GoogleMap map;
     CameraUpdate cameraUpdate;
@@ -31,12 +34,15 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         viewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+                ViewModelProviders.of(this).get(LocationViewModel.class);
         viewModel.setContext(getContext());
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         mapView = root.findViewById(R.id.mapView);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
+        if(!viewModel.getMapReady()) {
+            mapView.onCreate(savedInstanceState);
+            mapView.onResume();
+            viewModel.setMapReady(true);
+        }
         mapView.getMapAsync(this);
 
         return root;
@@ -49,15 +55,23 @@ public class DashboardFragment extends Fragment implements OnMapReadyCallback {
         LatLng current = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
         viewModel.getLocation().observe(this, location -> {
             for(String loc : location){
+                ArrayList<String> infoList = PreferenceManager.getStringArrayList(getContext(),loc);
+                String placeInfo = infoList.get(infoList.size()-1);
                 double latitude = Double.parseDouble(loc.split(":")[0]);
                 double longitude = Double.parseDouble(loc.split(":")[1]);
                 LatLng position = new LatLng(latitude,longitude);
                 MarkerOptions options = new MarkerOptions();
+                options.title(placeInfo.split("_")[0]);
+                String feel = placeInfo.split("_")[1];
+                if(feel.length()>10){
+                    feel = feel.substring(0,10) + "...";
+                }
+                options.snippet(feel);
                 options.position(position);
                 map.addMarker(options);
             }
         });
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(current,15));
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(current,13));
     }
 
 //    @Override
