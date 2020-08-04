@@ -1,7 +1,8 @@
 # footprint
 당신이 걸어온 길 위에 남아있는 발자취
 
-![20200804_120624](https://user-images.githubusercontent.com/55430747/89248583-174c7780-d64b-11ea-8f47-a796604584c1.png)
+![20200804_120624](https://user-images.githubusercontent.com/55430747/89248630-2df2ce80-d64b-11ea-8595-00a6611276f1.png)
+
 
 ![20200804_092417](https://user-images.githubusercontent.com/55430747/89241781-caf93b80-d63a-11ea-9dd2-559581b3a08a.png)
 ![20200804_092617](https://user-images.githubusercontent.com/55430747/89241783-ccc2ff00-d63a-11ea-8244-7516e0ec9c29.png)
